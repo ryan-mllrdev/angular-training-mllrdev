@@ -1,0 +1,4 @@
+[
+    { "id": 1, "name": "Supplier 1", "addressId": 1 },
+    { "id": 2, "name": "Supplier 2", "addressId": 2 }
+]
