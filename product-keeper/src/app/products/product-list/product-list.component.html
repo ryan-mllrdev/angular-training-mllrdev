@@ -1,1 +1,18 @@
-<p>product-list works!</p>
+<table class="table table-striped table-dark">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">SKU</th>
+        <th scope="col">NAME</th>
+        <th scope="col">SUPPLIER</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let prod of products">
+        <th scope="row">{{prod.id}}</th>
+        <td>{{prod.sku}}</td>
+        <td>{{prod.name}}</td>
+        <td>{{prod.supplierId}}</td>
+      </tr>
+    </tbody>
+  </table>
