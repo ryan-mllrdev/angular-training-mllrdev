@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 
 import { CoreModule } from './core/core.module';
 import { ProductsModule } from './products/products.module';
+import { ProductsRoutingModule } from './products/products.routing-module';
+import { LocationsRoutingModule } from './admin/locations/locations.routing-module';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { ProductsModule } from './products/products.module';
     ProductsModule,
     AppRoutingModule,
     HttpClientModule,
+    ProductsRoutingModule,
+    LocationsRoutingModule,
     CoreModule,
   ],
   providers: [],
