@@ -29,6 +29,16 @@ export class DataService {
         );
     }
 
+    getAddresses() : Observable<IAddress[]> {
+        return this.http.get<IAddress[]>(this.baseUrl + 'locations.json').
+        pipe(
+            map(addresses => {
+                return addresses;
+            }),
+            catchError(this.handleError)
+        );
+    }
+
     getSuppliers() : Observable<ISupplier[]> {
         return this.http.get<ISupplier[]>(this.baseUrl + 'suppliers.json').
         pipe(

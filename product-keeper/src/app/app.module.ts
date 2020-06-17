@@ -7,8 +7,8 @@ import { AppComponent } from './app.component';
 
 import { CoreModule } from './core/core.module';
 import { ProductsModule } from './products/products.module';
-import { ProductsRoutingModule } from './products/products.routing-module';
-import { LocationsRoutingModule } from './admin/locations/locations.routing-module';
+import { SuppliersModule } from './admin/suppliers/suppliers.module';
+import { LocationsModule } from './admin/locations/locations.module';
 
 @NgModule({
   declarations: [
@@ -19,8 +19,10 @@ import { LocationsRoutingModule } from './admin/locations/locations.routing-modu
     ProductsModule,
     AppRoutingModule,
     HttpClientModule,
-    ProductsRoutingModule,
-    LocationsRoutingModule,
+    LocationsModule,
+    SuppliersModule,
+    // ProductsRoutingModule,
+    // LocationsRoutingModule,
     CoreModule,
   ],
   providers: [],
