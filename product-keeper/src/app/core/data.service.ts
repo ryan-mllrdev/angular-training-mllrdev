@@ -77,6 +77,18 @@ export class DataService {
         );
     }
 
+    getProduct(id: number): Observable<IProduct> {
+
+        return this.http.get<IProduct[]>(this.baseUrl + 'products.json').
+        pipe(
+            map(products => {
+                let prods = products.filter((prod: IProduct) => prod.id === id);
+                return (prods && prods.length) ? prods[0] : null;
+            }),
+            catchError(this.handleError)
+        );
+    }
+
     private handleError(error) {
         console.error('server error ' + error);
         return Observable.throw(error || 'Node.js server error');

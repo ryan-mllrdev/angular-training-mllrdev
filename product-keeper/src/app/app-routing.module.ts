@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ProductsRoutingModule } from './products/products.routing-module';
-import { SuppliersRoutingModule } from './admin/suppliers/suppliers.routing-module';
-import { LocationsRoutingModule } from './admin/locations/locations.routing-module';
+import { AdminRoutingModule } from './admin/admin.routing-module';
 
 
 const routes: Routes = [
@@ -13,6 +11,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule, ProductsRoutingModule, SuppliersRoutingModule, LocationsRoutingModule]
+  exports: [RouterModule, AdminRoutingModule]
 })
 export class AppRoutingModule { }

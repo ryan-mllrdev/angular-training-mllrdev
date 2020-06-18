@@ -6,9 +6,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { CoreModule } from './core/core.module';
-import { ProductsModule } from './products/products.module';
-import { SuppliersModule } from './admin/suppliers/suppliers.module';
-import { LocationsModule } from './admin/locations/locations.module';
+import { AdminModule } from './admin/admin.module';
+// import { ProductsModule } from './products/products.module';
+// import { SuppliersModule } from './admin/suppliers/suppliers.module';
+// import { LocationsModule } from './admin/locations/locations.module';
 
 @NgModule({
   declarations: [
@@ -16,11 +17,12 @@ import { LocationsModule } from './admin/locations/locations.module';
   ],
   imports: [
     BrowserModule,
-    ProductsModule,
+    // ProductsModule,
     AppRoutingModule,
     HttpClientModule,
-    LocationsModule,
-    SuppliersModule,
+    AdminModule,
+    // LocationsModule,
+    // SuppliersModule,
     // ProductsRoutingModule,
     // LocationsRoutingModule,
     CoreModule,
