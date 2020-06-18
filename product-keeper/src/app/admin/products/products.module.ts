@@ -7,9 +7,10 @@ import { ProductAddEditComponent } from './add-edit/add-edit.component';
 import { DetailsComponent } from './details/details.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
-    imports: [CommonModule,RouterModule,FormsModule],
+    imports: [CommonModule,RouterModule,FormsModule,Ng2SearchPipeModule],
     declarations: [ProductsComponent, ProductListComponent, ProductAddEditComponent, DetailsComponent],
     exports: [ProductsComponent]
 })
