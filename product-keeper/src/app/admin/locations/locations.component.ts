@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../core/data.service';
 import { IAddress } from '../../shared/interfaces';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-locations',
@@ -12,9 +13,12 @@ export class LocationsComponent implements OnInit {
   locations: IAddress[] = [];
   searchText:string;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private appComponent: AppComponent) { }
 
   ngOnInit(): void {
+
+    this.appComponent.showFailed = 'collapse';
+    this.appComponent.showSuccess = 'collapse';
 
     this.dataService.getAddresses()
     .subscribe((locations: IAddress[]) => this.locations = locations);

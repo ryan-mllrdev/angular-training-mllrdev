@@ -1,5 +1,5 @@
 <nav class="navbar navbar-light bg-light justify-content-between">
-  <a class="navbar-brand"><button class="btn btn-primary" [routerLink]="['/products', 0]">+</button> LOCATIONS</a>
+  <a class="navbar-brand"><button class="btn btn-primary" [routerLink]="['/locations', 0]">+</button> LOCATIONS</a>
   <form class="form-inline">
     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchText" name="search">
   </form>
@@ -15,6 +15,9 @@
       <tr *ngFor="let loc of locations |filter:searchText">
         <th scope="row">{{loc.id}}</th>
         <td>{{loc.name}}</td>
+        <td>
+            <a [routerLink]="['/locations', loc.id]">Details</a>
+        </td>
       </tr>
     </tbody>
   </table>
