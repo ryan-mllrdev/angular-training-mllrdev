@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 
 import { CoreModule } from './core/core.module';
 import { AdminModule } from './admin/admin.module';
+import { FormsModule } from '@angular/forms';
+import { DataService } from './core/data.service';
 // import { ProductsModule } from './products/products.module';
 // import { SuppliersModule } from './admin/suppliers/suppliers.module';
 // import { LocationsModule } from './admin/locations/locations.module';
@@ -21,13 +23,14 @@ import { AdminModule } from './admin/admin.module';
     AppRoutingModule,
     HttpClientModule,
     AdminModule,
+    FormsModule,
     // LocationsModule,
     // SuppliersModule,
     // ProductsRoutingModule,
     // LocationsRoutingModule,
     CoreModule,
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
