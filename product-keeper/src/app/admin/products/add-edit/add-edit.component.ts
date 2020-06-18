@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../../../core/data.service';
-import { IProduct } from 'src/app/shared/interfaces';
+import { IProduct, ISupplier } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-add-edit',
@@ -12,6 +12,8 @@ import { IProduct } from 'src/app/shared/interfaces';
 export class ProductAddEditComponent implements OnInit {
 
   product: IProduct;
+  suppliers: ISupplier[] = [];
+  supplier: ISupplier;
 
   constructor(private dataService: DataService, private route: ActivatedRoute) { }
 
@@ -21,7 +23,23 @@ export class ProductAddEditComponent implements OnInit {
       
        this.dataService.getProduct(+params.get('id')).subscribe(prod =>{
           this.product = prod;
+          this.dataService.getSupplier(this.product.supplierId).subscribe(sup => {
+            this.supplier = sup;
+          })
         })   
       })
+
+      this.dataService.getSuppliers()
+      .subscribe((suppliers: ISupplier[]) => this.suppliers = suppliers);
+  }
+
+  getSuppliers() {
+    this.dataService.getSuppliers()
+      .subscribe((suppliers: ISupplier[]) => this.suppliers = suppliers);
+  }
+
+  saveProduct() {
+    this.product.supplierId = this.supplier.id;
+    this.dataService.addProduct(this.product);
   }
 }
