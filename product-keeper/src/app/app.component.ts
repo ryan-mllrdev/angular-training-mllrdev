@@ -9,6 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   
   title:string;
+  showSuccess:string = 'collapse';
+  showFailed:string = 'collapse';
+  message:string;
 
   ngOnInit(): void {
     this.title = "Any Product Logger";

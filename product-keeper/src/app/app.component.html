@@ -21,3 +21,9 @@
 <p>
   <router-outlet></router-outlet>
 </p>
+<div class="alert alert-success" role="alert" [style.visibility]="showSuccess">
+  <span [innerHtml]="message"></span>
+</div>
+<div class="alert alert-danger" role="alert" [style.visibility]="showFailed">
+  T<span [innerHtml]="message"></span>
+</div>
