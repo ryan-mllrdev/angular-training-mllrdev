@@ -58,6 +58,8 @@ export class ProductAddEditComponent implements OnInit {
 
     this.appComponent.showSuccess = 'visible';
     this.appComponent.showFailed = 'collapse';
+
+    this.detectChange();
   }
 
   detectChange(){
