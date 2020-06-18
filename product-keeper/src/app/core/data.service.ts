@@ -140,6 +140,8 @@ export class DataService {
         addr = this.locationsDictionary.get(id);
         if(addr)
             return of(addr);
+        addr = { id: 0, name: ''};
+        return of(addr);
     }
 
     getProduct(id: number): Observable<IProduct> {
