@@ -10,6 +10,7 @@ import { ISupplier } from '../../shared/interfaces'
 export class SuppliersComponent implements OnInit {
 
   suppliers: ISupplier[] = [];
+  searchText:string;
 
   constructor(private dataService: DataService) { }
 

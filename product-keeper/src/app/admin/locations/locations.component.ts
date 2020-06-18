@@ -10,6 +10,7 @@ import { IAddress } from '../../shared/interfaces';
 export class LocationsComponent implements OnInit {
 
   locations: IAddress[] = [];
+  searchText:string;
 
   constructor(private dataService: DataService) { }
 
