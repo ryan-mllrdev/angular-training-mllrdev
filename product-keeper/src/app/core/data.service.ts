@@ -12,190 +12,174 @@ import { IProduct, ISupplier, IAddress } from '../shared/interfaces';
 export class DataService {
 
     baseUrl: string = 'assets/';
-    suppliersList: ISupplier[] = [];
-    productsList: IProduct[] = [];
-    locationsList: IAddress[] = [];
 
-    constructor(private http: HttpClient) {}
+    productsDictionary = new Map<number,IProduct>();
+    suppliersDictionary = new Map<number, ISupplier>();
+    locationsDictionary = new Map<number, IAddress>();
+
+    constructor(private http: HttpClient) {
+        
+        this.getAddresses().subscribe(()=>{
+            this.getSuppliers().subscribe(()=>{
+                this.getProducts();
+            })
+        })
+    }
 
     getProducts() : Observable<IProduct[]> {
 
-        if(this.productsList && this.productsList.length)
-            return of(this.productsList);
+        //Check if data are already loaded
+        if(this.productsDictionary && this.productsDictionary.size)
+            return of(Array.from(this.productsDictionary.values()));
 
+        //If data are not loaded, get it from products.json
         return this.http.get<IProduct[]>(this.baseUrl + 'products.json').
         pipe(
             map(products => {
-                products.forEach(element => {
+                products.forEach(item => {
 
-                    this.getSupplierName(element.supplierId)
-                    .subscribe((name: string) => element.supplierName = name);
+                    //Get the supplier name and assign it to the product matching the supplierId
+                    this.getSupplierName(item.supplierId)
+                    .subscribe((name: string) => {
+
+                        item.supplierName= name;
+
+                        //Store each product item to a dictionary for future reference and easy access
+                        this.productsDictionary.set(item.id, item);
+                    });
 
                 });
-                return this.productsList = products;
+                return products;
             }),
+
+            //Handle server error
             catchError(this.handleError)
         );
     }
 
     getAddresses() : Observable<IAddress[]> {
 
-        if(this.locationsList && this.locationsList.length)
-            return of(this.locationsList);
+        //Check if addresses are already loaded
+        if(this.locationsDictionary && this.locationsDictionary.size)
+            return of(Array.from(this.locationsDictionary.values()));
 
+        //If not loaded, get it from locations.json from assets
         return this.http.get<IAddress[]>(this.baseUrl + 'locations.json').
         pipe(
             map(addresses => {
-                return this.locationsList = addresses;
+
+                addresses.forEach(item => {
+                    
+                    //Store all addresses to a dictionary for future reference and easy access
+                    this.locationsDictionary.set(item.id, item);
+                })
+
+                return addresses;
             }),
+
+            //Handle server error
             catchError(this.handleError)
         );
     }
 
     getSuppliers() : Observable<ISupplier[]> {
 
-        if(this.suppliersList && this.suppliersList.length)
-            return of(this.suppliersList);
+        //Check if data are already loaded
+        if(this.suppliersDictionary && this.suppliersDictionary.size)
+            return of(Array.from(this.suppliersDictionary.values()));
 
+        //If not loaded, get it from /assets/suppliers.json
         return this.http.get<ISupplier[]>(this.baseUrl + 'suppliers.json').
         pipe(
             map(suppliers => {
-                suppliers.forEach(element => {
 
-                    this.getAddressName(element.addressId)
-                    .subscribe((name: string) => element.addressName = name);
+                suppliers.forEach(item => {
+
+                    //Get address name and assign it to the match item in supplier according to the addressId
+                    this.getAddressName(item.addressId)
+                    .subscribe((name: string) => {
+
+                        item.addressName = name;
+
+                        //Store each record to a dictionary for future reference and easy access
+                        this.suppliersDictionary.set(item.id, item);
+
+                    });
 
                 });
-                return this.suppliersList = suppliers;
+                return suppliers;
             }),
+
+            //Handle server error
             catchError(this.handleError)
         );
     }
 
     getSupplierName(id: number): Observable<string> {
 
-        if(this.suppliersList && this.suppliersList.length)
-        {
-            return of(this.suppliersList)
-            .pipe(
-                map(suppliers => {
-                    let supplier = suppliers.filter((sup: ISupplier) => sup.id === id);
-                    return (supplier && supplier.length) ? supplier[0].name : null;
-                }),
-                catchError(this.handleError)
-            );
-        }
-
-        return this.http.get<ISupplier[]>(this.baseUrl + 'suppliers.json')
-        .pipe(
-            map(suppliers => {
-                let supplier = suppliers.filter((sup: ISupplier) => sup.id === id);
-                return (supplier && supplier.length) ? supplier[0].name : null;
-            }),
-            catchError(this.handleError)
-        );
+        let supName: string = "";
+        this.getSupplier(id).subscribe((supplier:ISupplier)=>{
+            if(supplier)
+                supName = supplier.name;
+        });
+        return of(supName);
     }
 
     getAddressName(id: number): Observable<string> {
 
-        if(this.locationsList && this.locationsList.length)
-        {
-            return of(this.locationsList)
-            .pipe(
-                map(locations => {
-                    let location = locations.filter((loc: IAddress) => loc.id === id);
-                    return (location && location.length) ? location[0].name : null;
-                }),
-                catchError(this.handleError)
-            );
-        }
+        let addr: string = "";
+        this.getAddress(id).subscribe((item:IAddress)=>{
+            addr = item.name;
+        });
+        return of(addr);
+    }
 
-        return this.http.get<IAddress[]>(this.baseUrl + 'locations.json')
-        .pipe(
-            map(locations => {
-                let location = locations.filter((loc: IAddress) => loc.id === id);
-                return (location && location.length) ? location[0].name : null;
-            }),
-            catchError(this.handleError)
-        );
+    getAddress(id: number): Observable<IAddress> {
+
+        let addr: IAddress;
+        addr = this.locationsDictionary.get(id);
+        if(addr)
+            return of(addr);
     }
 
     getProduct(id: number): Observable<IProduct> {
 
-
-        if(this.productsList && this.productsList.length)
-        {
-            return of(this.productsList)
-            .pipe(
-                map(products => {
-                    let prods = products.filter((prod: IProduct) => prod.id === id);
-                    
-                    let defaultProd: IProduct = { id: products.length  + 1, sku: '', name: '', description: '', supplierId: 0, supplierName: ''};
-    
-                    return (prods && prods.length) ? prods[0] : defaultProd;
-                }),
-                catchError(this.handleError)
-            );
-        }
-
-        return this.http.get<IProduct[]>(this.baseUrl + 'products.json').
-        pipe(
-            map(products => {
-                let prods = products.filter((prod: IProduct) => prod.id === id);
-                
-                let defaultProd: IProduct = { id: products.length  + 1, sku: '', name: '', description: '', supplierId: 0, supplierName: ''};
-
-                return (prods && prods.length) ? prods[0] : defaultProd;
-            }),
-            catchError(this.handleError)
-        );
+        let theprod: IProduct;
+        theprod = this.productsDictionary.get(id);
+        if(theprod)
+            return of(theprod);
+        theprod = { id: 0, name: '', description: '', sku: '', supplierId: 0, supplierName: ''};
+        return of(theprod);
     }
 
     getSupplier(id: number): Observable<ISupplier> {
 
-        if(this.suppliersList && this.suppliersList.length)
+        let supplier: ISupplier;
+        supplier = this.suppliersDictionary.get(id);
+        if(supplier)
+            return of(supplier);
+        else
         {
-            return of(this.suppliersList)
-            .pipe(
-                map(suppliers => {
-                
-                    let sups = suppliers.filter((sup: ISupplier) => sup.id === id);
-                    let defaultSup: ISupplier = { id: 0, name: '', addressId: 0, addressName: '' };
-    
-                    return (sups && sups.length) ? sups[0] : defaultSup;
-                }),
-                catchError(this.handleError)
-            );
+            let defaultSup: ISupplier = { id: 0, name: '', addressId: 0, addressName: '' };
+            return of(defaultSup);
         }
-
-        return this.http.get<ISupplier[]>(this.baseUrl + 'suppliers.json').
-        pipe(
-            map(suppliers => {
-                
-                let sups = suppliers.filter((sup: ISupplier) => sup.id === id);
-                let defaultSup: ISupplier = { id: 0, name: '', addressId: 0, addressName: '' };
-
-                return (sups && sups.length) ? sups[0] : defaultSup;
-            }),
-            catchError(this.handleError)
-        );
     }
 
     addProduct(value: IProduct) {
         if(value){
-            this.productsList.push(value);
+            this.productsDictionary.set(value.id, value);
         }
     }
 
     addSupplier(value: ISupplier) {
         if(value){
-            this.suppliersList.push(value);
+            this.suppliersDictionary.set(value.id, value);
         }
     }
 
     addAddress(value: IAddress) {
         if(value){
-            this.locationsList.push(value);
+            this.locationsDictionary.set(value.id, value);
         }
     }
 

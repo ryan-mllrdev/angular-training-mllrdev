@@ -39,7 +39,14 @@ export class ProductAddEditComponent implements OnInit {
   }
 
   saveProduct() {
+
     this.product.supplierId = this.supplier.id;
-    this.dataService.addProduct(this.product);
+    this.product.supplierName = this.supplier.name;
+    
+    if(this.product.id == 0)
+    {
+      this.product.id = this.dataService.productsDictionary.size + 1;
+      this.dataService.addProduct(this.product);
+    }
   }
 }
