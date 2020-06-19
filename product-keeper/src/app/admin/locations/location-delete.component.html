@@ -7,11 +7,11 @@
             </div>
             <div class="container pt-3">
                 <div class="card-body text-center">
-                    <label class="" style="font-size:2em;">Do you really wish to delete <u>{{product.name}}</u>?</label>
+                    <label class="" style="font-size:2em;">Do you really wish to delete <u>{{address.name}}</u>?</label>
                 </div>
             </div>
             <div class="card-footer">
-                <button class="btn btn-success float-right" style="margin:5px;" [routerLink]="'/products'">Cancel</button>
+                <button class="btn btn-success float-right" style="margin:5px;" [routerLink]="'/locations'">Cancel</button>
                 <button class="btn btn-danger float-right" style="margin:5px;" (click)="confirmDelete()">Delete</button>
             </div>
         </div>

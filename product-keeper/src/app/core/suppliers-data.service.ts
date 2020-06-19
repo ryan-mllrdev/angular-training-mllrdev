@@ -81,4 +81,10 @@ export class SuppliersDataService extends BaseDataService {
             this.suppliersDictionary.set(value.id, value);
         }
     }
+
+    deleteSupplier(value: number) {
+        if(value){
+            this.suppliersDictionary.delete(value);
+        }
+    }
 }

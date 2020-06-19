@@ -66,4 +66,10 @@ export class LocationDataService extends BaseDataService {
             this.locationsDictionary.set(value.id, value);
         }
     }
+
+    deleteAddress(value: number) {
+        if(value){
+            this.locationsDictionary.delete(value);
+        }
+    }
 }

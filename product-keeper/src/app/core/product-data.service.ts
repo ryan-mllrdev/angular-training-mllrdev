@@ -68,9 +68,9 @@ export class ProductDataService extends BaseDataService {
         }
     }
 
-    deleteProduct(value: IProduct) {
+    deleteProduct(value: number) {
         if(value){
-            this.productsDictionary.set(value.id, value);
+            this.productsDictionary.delete(value);
         }
     }
 }

@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/core/data.service';
-import { IProduct } from 'src/app/shared/interfaces';
+import { ISupplier } from 'src/app/shared/interfaces';
 import { AppComponent } from 'src/app/app.component';
 
 @Component({
-    selector: 'app-product-delete',
-    templateUrl: './product-delete.component.html'
+    selector: 'app-supplier-delete',
+    templateUrl: './supplier-delete.component.html'
 })
-export class ProductDeleteComponent implements OnInit{
+export class SupplierDeleteComponent implements OnInit{
 
-    product:IProduct;
+    supplier:ISupplier;
 
     constructor(private appComponent: AppComponent, private route: ActivatedRoute, private dataService: DataService) {
     }
@@ -18,15 +18,15 @@ export class ProductDeleteComponent implements OnInit{
     ngOnInit(): void {
         this.route.paramMap.subscribe(params => {
       
-            this.dataService.productDataService.getProduct(+params.get('id')).subscribe(prod =>{
-               this.product = prod;
+            this.dataService.supplierDataService.getSupplier(+params.get('id')).subscribe(sup =>{
+               this.supplier = sup;
              })   
            })
     }
 
     confirmDelete() {
-        this.dataService.productDataService.deleteProduct(this.product.id);
-        this.appComponent.message = 'Product successfully deleted.';
+        this.dataService.supplierDataService.deleteSupplier(this.supplier.id);
+        this.appComponent.message = 'Supplier successfully deleted.';
         this.appComponent.showFailed = 'collapse';
         this.appComponent.showSuccess = 'visible';
     }
