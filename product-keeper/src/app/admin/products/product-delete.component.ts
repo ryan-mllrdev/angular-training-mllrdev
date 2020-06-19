@@ -11,6 +11,7 @@ import { AppComponent } from 'src/app/app.component';
 export class ProductDeleteComponent implements OnInit{
 
     product:IProduct;
+    disabled:boolean = false;
 
     constructor(private appComponent: AppComponent, private route: ActivatedRoute, private dataService: DataService) {
     }
@@ -29,5 +30,6 @@ export class ProductDeleteComponent implements OnInit{
         this.appComponent.message = 'Product successfully deleted.';
         this.appComponent.showFailed = 'collapse';
         this.appComponent.showSuccess = 'visible';
+        this.disabled = true;//Disable button after delete.
     }
 }
