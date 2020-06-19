@@ -23,21 +23,21 @@ export class ProductAddEditComponent implements OnInit {
 
     this.route.paramMap.subscribe(params => {
       
-       this.dataService.getProduct(+params.get('id')).subscribe(prod =>{
+       this.dataService.productDataService.getProduct(+params.get('id')).subscribe(prod =>{
           this.product = prod;
-          this.dataService.getSupplier(this.product.supplierId).subscribe(sup => {
+          this.dataService.supplierDataService.getSupplier(this.product.supplierId).subscribe(sup => {
             this.supplier = sup;
             this.detectChange();
           })
         })   
       })
 
-      this.dataService.getSuppliers()
+      this.dataService.supplierDataService.getSuppliers()
       .subscribe((suppliers: ISupplier[]) => this.suppliers = suppliers);
   }
 
   getSuppliers() {
-    this.dataService.getSuppliers()
+    this.dataService.supplierDataService.getSuppliers()
       .subscribe((suppliers: ISupplier[]) => this.suppliers = suppliers);
   }
 
@@ -49,8 +49,8 @@ export class ProductAddEditComponent implements OnInit {
     
     if(this.product.id == 0)
     {
-      this.product.id = this.dataService.productsDictionary.size + 1;
-      this.dataService.addProduct(this.product);
+      this.product.id = this.dataService.productDataService.productsDictionary.size + 1;
+      this.dataService.productDataService.addProduct(this.product);
       this.appComponent.message = 'New product successfully added.';
 
       this.product = { id: 0, sku: '', name: '', description: '', supplierName: '', supplierId: 0};

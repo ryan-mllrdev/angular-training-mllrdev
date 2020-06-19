@@ -20,7 +20,7 @@ export class LocationsComponent implements OnInit {
     this.appComponent.showFailed = 'collapse';
     this.appComponent.showSuccess = 'collapse';
 
-    this.dataService.getAddresses()
+    this.dataService.locationDataService.getAddresses()
     .subscribe((locations: IAddress[]) => this.locations = locations);
 
   }

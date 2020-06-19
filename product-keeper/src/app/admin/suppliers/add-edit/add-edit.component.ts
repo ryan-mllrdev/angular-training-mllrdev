@@ -23,21 +23,21 @@ export class SupplierAddEditComponent implements OnInit {
 
     this.route.paramMap.subscribe(params => {
       
-       this.dataService.getSupplier(+params.get('id')).subscribe(sup =>{
+       this.dataService.supplierDataService.getSupplier(+params.get('id')).subscribe(sup =>{
           this.supplier = sup;
-          this.dataService.getAddress(this.supplier.addressId).subscribe(addr => {
+          this.dataService.locationDataService.getAddress(this.supplier.addressId).subscribe(addr => {
             this.address = addr;
             this.detectChange();
           })
         })   
       })
 
-      this.dataService.getAddresses()
+      this.dataService.locationDataService.getAddresses()
       .subscribe((addresses: IAddress[]) => this.addresses = addresses);
   }
 
   getAddresses() {
-    this.dataService.getAddresses()
+    this.dataService.locationDataService.getAddresses()
       .subscribe((addresses: IAddress[]) => this.addresses = addresses);
   }
 
@@ -49,8 +49,8 @@ export class SupplierAddEditComponent implements OnInit {
     
     if(this.supplier.id == 0)
     {
-      this.supplier.id = this.dataService.suppliersDictionary.size + 1;
-      this.dataService.addSupplier(this.supplier);
+      this.supplier.id = this.dataService.supplierDataService.suppliersDictionary.size + 1;
+      this.dataService.supplierDataService.addSupplier(this.supplier);
       this.appComponent.message = 'New supplier successfully added.';
 
       this.supplier = { id: 0, name: '', addressName: '', addressId: 0};

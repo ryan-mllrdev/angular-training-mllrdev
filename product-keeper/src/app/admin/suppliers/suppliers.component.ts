@@ -20,7 +20,7 @@ export class SuppliersComponent implements OnInit {
     this.appComponent.showFailed = 'collapse';
     this.appComponent.showSuccess = 'collapse';
 
-    this.dataService.getSuppliers()
+    this.dataService.supplierDataService.getSuppliers()
     .subscribe((suppliers: ISupplier[]) => this.suppliers = suppliers);
   }
 

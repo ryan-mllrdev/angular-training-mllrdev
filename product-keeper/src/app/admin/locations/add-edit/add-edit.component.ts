@@ -20,7 +20,7 @@ export class AddressAddEditComponent implements OnInit {
 
     this.route.paramMap.subscribe(params => {
       
-       this.dataService.getAddress(+params.get('id')).subscribe(addr =>{
+       this.dataService.locationDataService.getAddress(+params.get('id')).subscribe(addr =>{
           this.address = addr;
           this.detectChange();
         })   
@@ -33,8 +33,8 @@ export class AddressAddEditComponent implements OnInit {
     
     if(this.address.id == 0)
     {
-      this.address.id = this.dataService.locationsDictionary.size + 1;
-      this.dataService.addAddress(this.address);
+      this.address.id = this.dataService.locationDataService.locationsDictionary.size + 1;
+      this.dataService.locationDataService.addAddress(this.address);
       this.appComponent.message = 'New address successfully added.';
 
       this.address = { id: 0, name: ''};
