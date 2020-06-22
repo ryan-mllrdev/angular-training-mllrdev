@@ -7,11 +7,10 @@ import { ProductAddEditComponent } from './add-edit/add-edit.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { ProductDeleteComponent } from './product-delete.component';
 
 @NgModule({
     imports: [CommonModule, RouterModule, FormsModule, Ng2SearchPipeModule],
-    declarations: [ProductsComponent, ProductListComponent, ProductAddEditComponent, ProductDeleteComponent],
+    declarations: [ProductsComponent, ProductListComponent, ProductAddEditComponent],
     exports: [ProductsComponent]
 })
 export class ProductsModule { }

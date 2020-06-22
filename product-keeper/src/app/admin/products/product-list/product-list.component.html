@@ -14,16 +14,19 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let prod of products |filter:searchText">
-        <th scope="row">{{prod.id}}</th>
-        <td>{{prod.sku}}</td>
-        <td>{{prod.name}}</td>
-        <td>{{prod.supplierName}}</td>
+      <tr *ngFor="let product of products |filter:searchText">
+        <th scope="row">{{product.id}}</th>
+        <td>{{product.sku}}</td>
+        <td>{{product.name}}</td>
+        <td>{{product.supplierName}}</td>
         <td>
-            <a [routerLink]="['/products', prod.id]">Details</a>
+            <a [routerLink]="['/products', product.id]">Details</a>
         </td>
-        <td>
+        <!-- <td>
           <a [routerLink]="['/products/delete', prod.id]">Delete</a>
+        </td> -->
+        <td>
+          <button (click)="confirmDelete(product.id)">Delete</button>
         </td>
       </tr>
     </tbody>
