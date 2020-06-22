@@ -11,8 +11,8 @@ import { AddressAddEditComponent } from './add-edit/add-edit.component';
 import { AddressDeleteComponent } from './location-delete.component';
 
 @NgModule({
-    imports: [CommonModule,RouterModule,FormsModule,Ng2SearchPipeModule],
-    declarations: [LocationsComponent, AddressAddEditComponent,AddressDeleteComponent],
+    imports: [CommonModule, RouterModule, FormsModule, Ng2SearchPipeModule],
+    declarations: [LocationsComponent, AddressAddEditComponent, AddressDeleteComponent],
     exports: [LocationsComponent]
 })
-export class LocationsModule {}
+export class LocationsModule{ }

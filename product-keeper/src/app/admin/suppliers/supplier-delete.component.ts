@@ -10,19 +10,19 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class SupplierDeleteComponent implements OnInit{
 
-    supplier:ISupplier;
-    disabled:boolean = false;
+    supplier: ISupplier;
+    disabled = false;
 
     constructor(private appComponent: AppComponent, private route: ActivatedRoute, private dataService: DataService) {
     }
 
     ngOnInit(): void {
         this.route.paramMap.subscribe(params => {
-      
+
             this.dataService.supplierDataService.getSupplier(+params.get('id')).subscribe(sup =>{
                this.supplier = sup;
-             })   
-           })
+             });
+           });
     }
 
     confirmDelete() {
@@ -30,6 +30,6 @@ export class SupplierDeleteComponent implements OnInit{
         this.appComponent.message = 'Supplier successfully deleted.';
         this.appComponent.showFailed = 'collapse';
         this.appComponent.showSuccess = 'visible';
-        this.disabled = true;//Disable button after delete.
+        this.disabled = true; // Disable button after delete.
     }
 }

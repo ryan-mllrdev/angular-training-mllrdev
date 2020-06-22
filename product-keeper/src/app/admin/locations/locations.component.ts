@@ -11,7 +11,7 @@ import { AppComponent } from 'src/app/app.component';
 export class LocationsComponent implements OnInit {
 
   locations: IAddress[] = [];
-  searchText:string;
+  searchText: string;
 
   constructor(private dataService: DataService, private appComponent: AppComponent) { }
 

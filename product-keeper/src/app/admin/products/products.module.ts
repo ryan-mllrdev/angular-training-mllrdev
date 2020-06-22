@@ -10,8 +10,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ProductDeleteComponent } from './product-delete.component';
 
 @NgModule({
-    imports: [CommonModule,RouterModule,FormsModule,Ng2SearchPipeModule],
-    declarations: [ProductsComponent, ProductListComponent, ProductAddEditComponent,ProductDeleteComponent],
+    imports: [CommonModule, RouterModule, FormsModule, Ng2SearchPipeModule],
+    declarations: [ProductsComponent, ProductListComponent, ProductAddEditComponent, ProductDeleteComponent],
     exports: [ProductsComponent]
 })
-export class ProductsModule {}
+export class ProductsModule { }

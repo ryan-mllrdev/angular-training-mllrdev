@@ -15,24 +15,24 @@ export class SupplierAddEditComponent implements OnInit {
   address: IAddress;
   addresses: IAddress[] = [];
   supplier: ISupplier;
-  disabled:boolean = true;
+  disabled = true;
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private appComponent: AppComponent) { }
 
   ngOnInit(): void {
 
     this.route.paramMap.subscribe(params => {
-      
+
        this.dataService.supplierDataService.getSupplier(+params.get('id')).subscribe(sup =>{
           this.supplier = sup;
           this.dataService.locationDataService.getAddress(this.supplier.addressId).subscribe(addr => {
             this.address = addr;
             this.detectChange();
-          })
-        })   
-      })
+          });
+        });
+      });
 
-      this.dataService.locationDataService.getAddresses()
+    this.dataService.locationDataService.getAddresses()
       .subscribe((addresses: IAddress[]) => this.addresses = addresses);
   }
 
@@ -46,8 +46,8 @@ export class SupplierAddEditComponent implements OnInit {
     this.supplier.addressId = this.address.id;
     this.supplier.addressName = this.address.name;
     this.appComponent.message = 'Supplier successfully updated.';
-    
-    if(this.supplier.id == 0)
+
+    if (this.supplier.id === 0)
     {
       this.supplier.id = this.dataService.supplierDataService.suppliersDictionary.size + 1;
       this.dataService.supplierDataService.addSupplier(this.supplier);
@@ -63,9 +63,9 @@ export class SupplierAddEditComponent implements OnInit {
   }
 
   detectChange(){
-    
+
     this.disabled = true;
-    if(this.supplier.name && this.address.id)
+    if (this.supplier.name && this.address.id)
     {
       this.disabled = false;
     }

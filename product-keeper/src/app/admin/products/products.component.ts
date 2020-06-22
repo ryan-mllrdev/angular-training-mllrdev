@@ -18,10 +18,10 @@ export class ProductsComponent implements OnInit {
 
     this.appComponent.showFailed = 'collapse';
     this.appComponent.showSuccess = 'collapse';
-    
+
     this.dataService.productDataService.getProducts()
     .subscribe((products: IProduct[]) => this.products = products);
-    
+
   }
 
 }

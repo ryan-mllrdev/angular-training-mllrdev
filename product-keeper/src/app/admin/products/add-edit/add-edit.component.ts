@@ -15,24 +15,21 @@ export class ProductAddEditComponent implements OnInit {
   product: IProduct;
   suppliers: ISupplier[] = [];
   supplier: ISupplier;
-  disabled:boolean = true;
+  disabled = true;
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private appComponent: AppComponent) { }
 
   ngOnInit(): void {
 
     this.route.paramMap.subscribe(params => {
-      
        this.dataService.productDataService.getProduct(+params.get('id')).subscribe(prod =>{
           this.product = prod;
           this.dataService.supplierDataService.getSupplier(this.product.supplierId).subscribe(sup => {
             this.supplier = sup;
             this.detectChange();
-          })
-        })   
-      })
+          }); }); });
 
-      this.dataService.supplierDataService.getSuppliers()
+    this.dataService.supplierDataService.getSuppliers()
       .subscribe((suppliers: ISupplier[]) => this.suppliers = suppliers);
   }
 
@@ -46,8 +43,8 @@ export class ProductAddEditComponent implements OnInit {
     this.product.supplierId = this.supplier.id;
     this.product.supplierName = this.supplier.name;
     this.appComponent.message = 'Product successfully updated.';
-    
-    if(this.product.id == 0)
+
+    if (this.product.id === 0)
     {
       this.product.id = this.dataService.productDataService.productsDictionary.size + 1;
       this.dataService.productDataService.addProduct(this.product);
@@ -63,9 +60,8 @@ export class ProductAddEditComponent implements OnInit {
   }
 
   detectChange(){
-    
     this.disabled = true;
-    if(this.product.name && this.product.sku && this.product.description && this.supplier.id)
+    if (this.product.name && this.product.sku && this.product.description && this.supplier.id)
     {
       this.disabled = false;
     }

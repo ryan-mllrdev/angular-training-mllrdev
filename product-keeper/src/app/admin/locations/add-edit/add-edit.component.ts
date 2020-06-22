@@ -12,26 +12,23 @@ import { AppComponent } from 'src/app/app.component';
 export class AddressAddEditComponent implements OnInit {
 
   address: IAddress;
-  disabled:boolean = true;
+  disabled = true;
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private appComponent: AppComponent) { }
 
   ngOnInit(): void {
 
     this.route.paramMap.subscribe(params => {
-      
        this.dataService.locationDataService.getAddress(+params.get('id')).subscribe(addr =>{
           this.address = addr;
           this.detectChange();
-        })   
-      })
+        }); });
   }
 
   saveAddress() {
 
     this.appComponent.message = 'Address successfully updated.';
-    
-    if(this.address.id == 0)
+    if (this.address.id === 0)
     {
       this.address.id = this.dataService.locationDataService.locationsDictionary.size + 1;
       this.dataService.locationDataService.addAddress(this.address);
@@ -47,9 +44,8 @@ export class AddressAddEditComponent implements OnInit {
   }
 
   detectChange(){
-    
     this.disabled = true;
-    if(this.address.name)
+    if (this.address.name)
     {
       this.disabled = false;
     }

@@ -21,25 +21,26 @@ export class ProductDataService extends BaseDataService {
         super(http);
     }
 
-    getProducts() : Observable<IProduct[]> {
+    getProducts(): Observable<IProduct[]> {
 
-        //Check if data are already loaded
-        if(this.productsDictionary && this.productsDictionary.size)
+        // Check if data are already loaded
+        if (this.productsDictionary && this.productsDictionary.size) {
             return of(Array.from(this.productsDictionary.values()));
+        }
 
-        //If data are not loaded, get it from products.json
+        // If data are not loaded, get it from products.json
         return this.http.get<IProduct[]>(this.baseUrl + 'products.json').
         pipe(
             map(products => {
                 products.forEach(item => {
 
-                    //Get the supplier name and assign it to the product matching the supplierId
+                    // Get the supplier name and assign it to the product matching the supplierId
                     this.supplier.getSupplierName(item.supplierId)
                     .subscribe((name: string) => {
 
                         item.supplierName= name;
 
-                        //Store each product item to a dictionary for future reference and easy access
+                        // Store each product item to a dictionary for future reference and easy access
                         this.productsDictionary.set(item.id, item);
                     });
 
@@ -47,29 +48,30 @@ export class ProductDataService extends BaseDataService {
                 return products;
             }),
 
-            //Handle server error
+            // Handle server error
             catchError(this.handleError)
         );
     }
-    
+
     getProduct(id: number): Observable<IProduct> {
 
         let theprod: IProduct;
         theprod = this.productsDictionary.get(id);
-        if(theprod)
+        if (theprod) {
             return of(theprod);
+        }
         theprod = { id: 0, name: '', description: '', sku: '', supplierId: 0, supplierName: ''};
         return of(theprod);
     }
 
     addProduct(value: IProduct) {
-        if(value){
+        if (value){
             this.productsDictionary.set(value.id, value);
         }
     }
 
     deleteProduct(value: number) {
-        if(value){
+        if (value){
             this.productsDictionary.delete(value);
         }
     }

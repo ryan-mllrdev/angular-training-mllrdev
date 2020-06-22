@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 export abstract class BaseDataService {
 
-    protected baseUrl: string = 'assets/';
+    protected baseUrl = 'assets/';
 
     constructor(protected http: HttpClient){}
     protected handleError(error) {

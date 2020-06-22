@@ -11,18 +11,18 @@ import { LocationDataService } from './locations-data.service';
 export class DataService {
 
     constructor(
-        private productService: ProductDataService, 
+        private productService: ProductDataService,
         private supplierService: SuppliersDataService,
         private locationService: LocationDataService) {
-        
-        this.locationService.getAddresses().subscribe(()=>{
-            this.supplierService.getSuppliers().subscribe(()=>{
+
+        this.locationService.getAddresses().subscribe(() => {
+            this.supplierService.getSuppliers().subscribe(() => {
                 this.productService.getProducts();
-            })
-        })
+            });
+        });
     }
 
-    productDataService:ProductDataService = this.productService;
-    supplierDataService:SuppliersDataService = this.supplierService;
-    locationDataService:LocationDataService = this.locationService;
+    productDataService: ProductDataService = this.productService;
+    supplierDataService: SuppliersDataService = this.supplierService;
+    locationDataService: LocationDataService = this.locationService;
 }

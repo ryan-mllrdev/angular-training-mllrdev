@@ -7,13 +7,13 @@ import { IProduct } from 'src/app/shared/interfaces';
 })
 export class ProductListComponent implements OnInit {
 
+    constructor() { }
+
     filteredProducts: IProduct[] = [];
     searchText: string;
 
-    constructor() { }
+    @Input () products: IProduct[];
 
     ngOnInit(): void {
     }
-
-    @Input () products: IProduct[];
 }

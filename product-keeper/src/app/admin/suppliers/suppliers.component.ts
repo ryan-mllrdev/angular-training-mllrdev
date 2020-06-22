@@ -11,7 +11,7 @@ import { AppComponent } from 'src/app/app.component';
 export class SuppliersComponent implements OnInit {
 
   suppliers: ISupplier[] = [];
-  searchText:string;
+  searchText: string;
 
   constructor(private dataService: DataService, private appComponent: AppComponent) { }
 

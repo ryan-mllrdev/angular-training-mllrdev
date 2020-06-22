@@ -10,19 +10,17 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class AddressDeleteComponent implements OnInit{
 
-    address:IAddress;
-    disabled:boolean = false;
+    address: IAddress;
+    disabled = false;
 
     constructor(private appComponent: AppComponent, private route: ActivatedRoute, private dataService: DataService) {
     }
 
     ngOnInit(): void {
         this.route.paramMap.subscribe(params => {
-      
             this.dataService.locationDataService.getAddress(+params.get('id')).subscribe(addr =>{
                this.address = addr;
-             })   
-           })
+             }); });
     }
 
     confirmDelete() {
@@ -30,6 +28,6 @@ export class AddressDeleteComponent implements OnInit{
         this.appComponent.message = 'Address successfully deleted.';
         this.appComponent.showFailed = 'collapse';
         this.appComponent.showSuccess = 'visible';
-        this.disabled = true;//Disable button after delete.
+        this.disabled = true; // Disable button after delete.
     }
 }

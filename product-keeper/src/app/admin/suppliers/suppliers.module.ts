@@ -9,7 +9,7 @@ import { SupplierAddEditComponent } from './add-edit/add-edit.component';
 import { SupplierDeleteComponent } from './supplier-delete.component';
 
 @NgModule({
-    imports: [CommonModule,RouterModule,FormsModule,Ng2SearchPipeModule],
+    imports: [CommonModule, RouterModule, FormsModule, Ng2SearchPipeModule],
     declarations: [SuppliersComponent, SupplierAddEditComponent, SupplierDeleteComponent],
     exports: [SuppliersComponent]
 })

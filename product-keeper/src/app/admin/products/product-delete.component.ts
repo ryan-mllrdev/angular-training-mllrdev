@@ -10,19 +10,17 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class ProductDeleteComponent implements OnInit{
 
-    product:IProduct;
-    disabled:boolean = false;
+    product: IProduct;
+    disabled = false;
 
     constructor(private appComponent: AppComponent, private route: ActivatedRoute, private dataService: DataService) {
     }
 
     ngOnInit(): void {
         this.route.paramMap.subscribe(params => {
-      
-            this.dataService.productDataService.getProduct(+params.get('id')).subscribe(prod =>{
+        this.dataService.productDataService.getProduct(+params.get('id')).subscribe(prod => {
                this.product = prod;
-             })   
-           })
+        }); });
     }
 
     confirmDelete() {
@@ -30,6 +28,6 @@ export class ProductDeleteComponent implements OnInit{
         this.appComponent.message = 'Product successfully deleted.';
         this.appComponent.showFailed = 'collapse';
         this.appComponent.showSuccess = 'visible';
-        this.disabled = true;//Disable button after delete.
+        this.disabled = true; // Disable button after delete.
     }
 }
