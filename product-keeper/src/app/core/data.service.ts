@@ -15,14 +15,15 @@ export class DataService {
         private supplierService: SuppliersDataService,
         private locationService: LocationDataService) {
 
-        this.locationService.getAddresses().subscribe(() => {
+            this.loadServiceData();
+    }
+
+    private loadServiceData() {
+
+        this.locationService.getLocations().subscribe(() => {
             this.supplierService.getSuppliers().subscribe(() => {
                 this.productService.getProducts();
             });
         });
     }
-
-    productDataService: ProductDataService = this.productService;
-    supplierDataService: SuppliersDataService = this.supplierService;
-    locationDataService: LocationDataService = this.locationService;
 }

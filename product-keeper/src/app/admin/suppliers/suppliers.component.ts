@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../core/data.service';
-import { ISupplier } from '../../shared/interfaces'
-import { AppComponent } from 'src/app/app.component';
+import { ISupplier } from 'src/app/shared/supplier-interface';
+import { SuppliersDataService } from 'src/app/core/suppliers-data.service';
+import { LocationDataService } from 'src/app/core/locations-data.service';
+import { ProductDataService } from 'src/app/core/product-data.service';
 
 @Component({
   selector: 'app-suppliers',
@@ -13,15 +14,10 @@ export class SuppliersComponent implements OnInit {
   suppliers: ISupplier[] = [];
   searchText: string;
 
-  constructor(private dataService: DataService, private appComponent: AppComponent) { }
+  constructor(private supplierDataService: SuppliersDataService) { }
 
   ngOnInit(): void {
-
-    this.appComponent.showFailed = 'collapse';
-    this.appComponent.showSuccess = 'collapse';
-
-    this.dataService.supplierDataService.getSuppliers()
+    this.supplierDataService.getSuppliers()
     .subscribe((suppliers: ISupplier[]) => this.suppliers = suppliers);
   }
-
 }

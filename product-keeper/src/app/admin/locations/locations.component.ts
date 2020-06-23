@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../core/data.service';
-import { IAddress } from '../../shared/interfaces';
 import { AppComponent } from 'src/app/app.component';
+import { ILocation } from 'src/app/shared/location-interface';
+import { LocationDataService } from 'src/app/core/locations-data.service';
+import { SuppliersDataService } from 'src/app/core/suppliers-data.service';
+import { ProductDataService } from 'src/app/core/product-data.service';
 
 @Component({
   selector: 'app-locations',
@@ -10,18 +12,16 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class LocationsComponent implements OnInit {
 
-  locations: IAddress[] = [];
-  searchText: string;
+  locations: ILocation[] = [];
 
-  constructor(private dataService: DataService, private appComponent: AppComponent) { }
+  constructor(private locationDataService: LocationDataService)
+    {
+    }
 
   ngOnInit(): void {
 
-    this.appComponent.showFailed = 'collapse';
-    this.appComponent.showSuccess = 'collapse';
-
-    this.dataService.locationDataService.getAddresses()
-    .subscribe((locations: IAddress[]) => this.locations = locations);
+    this.locationDataService.getLocations()
+    .subscribe((locations: ILocation[]) => this.locations = locations);
 
   }
 

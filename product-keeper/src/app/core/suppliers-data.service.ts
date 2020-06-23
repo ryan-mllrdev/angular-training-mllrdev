@@ -1,30 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ISupplier } from '../shared/interfaces';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { BaseDataService } from './base-data.service';
 import { LocationDataService } from './locations-data.service';
+import { ISupplier } from '../shared/supplier-interface';
 
 @Injectable({
     providedIn: 'root'
 })
-export class SuppliersDataService extends BaseDataService {
+export class SuppliersDataService {
 
-    suppliersDictionary = new Map<number, ISupplier>();
+    baseUrl = 'assets/';
+    suppliers: Record<number, ISupplier> = {};
 
     /**
      *
      */
-    constructor(http: HttpClient, private locationDataService: LocationDataService) {
-        super(http);
+    constructor(private http: HttpClient, private locationDataService: LocationDataService) {
     }
 
     getSuppliers(): Observable<ISupplier[]> {
 
         // Check if data are already loaded
-        if(this.suppliersDictionary && this.suppliersDictionary.size) {
-            return of(Array.from(this.suppliersDictionary.values()));
+        if (this.suppliers && Object.keys(this.suppliers).length) {
+            return of(Array.from(Object.values(this.suppliers)));
         }
 
         // If not loaded, get it from /assets/suppliers.json
@@ -32,62 +31,77 @@ export class SuppliersDataService extends BaseDataService {
         pipe(
             map(suppliers => {
 
-                suppliers.forEach(item => {
+                suppliers.forEach(supplier => {
 
                     // Get address name and assign it to the match item in supplier according to the addressId
-                    this.locationDataService.getAddressName(item.addressId)
+                    this.locationDataService.getLocationName(supplier.locationId)
                     .subscribe((name: string) => {
 
-                        item.addressName = name;
+                        supplier.locationName = name;
 
                         // Store each record to a dictionary for future reference and easy access
-                        this.suppliersDictionary.set(item.id, item);
+                        this.suppliers[supplier.id] =  supplier;
 
                     });
 
                 });
                 return suppliers;
             }),
-
-            // Handle server error
-            catchError(this.handleError)
         );
     }
 
     getSupplier(id: number): Observable<ISupplier> {
 
-        let supplier: ISupplier;
-        supplier = this.suppliersDictionary.get(id);
-        if (supplier) {
-            return of(supplier);
-        }
-        else
+        if (!Object.keys(this.suppliers).length)
         {
-            const defaultSup: ISupplier = { id: 0, name: '', addressId: 0, addressName: '' };
-            return of(defaultSup);
+            return;
         }
+
+        return of(this.suppliers[id]);
     }
 
     getSupplierName(id: number): Observable<string> {
 
-        let supName = '';
-        this.getSupplier(id).subscribe((supplier: ISupplier) => {
-            if (supplier) {
-                supName = supplier.name;
-            }
-        });
-        return of(supName);
+        if (!id)
+        {
+            return;
+        }
+
+        return this.getSupplier(id).pipe(map(supplier => {
+            return supplier.name;
+        }));
     }
 
-    addSupplier(value: ISupplier) {
-        if (value){
-            this.suppliersDictionary.set(value.id, value);
+    addSupplier(newSupplier: ISupplier) {
+        if (newSupplier){
+            newSupplier.id = this.createId();
+            const supplier = {
+                ...newSupplier
+            };
+            this.suppliers[newSupplier.id] =  supplier;
         }
     }
 
-    deleteSupplier(value: number) {
-        if (value){
-            this.suppliersDictionary.delete(value);
+    deleteSupplier(supplierId: number) {
+        if (supplierId){
+            delete this.suppliers[supplierId];
         }
     }
+
+    updateSupplier(supplier: ISupplier) {
+        if (supplier) {
+            this.suppliers[supplier.id] = supplier;
+        }
+    }
+
+    private createId(): number {
+
+        const supplierValues: ISupplier[] = Object.values(this.suppliers);
+
+        const maxId: number = Math.max.apply(Math, supplierValues.map(supplier => {
+            return supplier.id;
+        }));
+
+        return maxId + 1;
+      }
 }

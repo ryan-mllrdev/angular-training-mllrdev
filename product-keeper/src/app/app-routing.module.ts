@@ -1,16 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AdminRoutingModule } from './admin/admin.routing-module';
-
-
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/products'},
-  { path: '**', pathMatch: 'full', redirectTo: '/products' }
+  {
+    path: '',
+    loadChildren: () => import(`./admin/products/products.module`).then(products => products.ProductsModule),
+  },
+  {
+    path: '**',
+    loadChildren: () => import(`./admin/products/products.module`).then(products => products.ProductsModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule, AdminRoutingModule]
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

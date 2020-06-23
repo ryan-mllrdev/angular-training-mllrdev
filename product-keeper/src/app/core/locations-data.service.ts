@@ -1,77 +1,95 @@
 import { Injectable } from '@angular/core';
-import { BaseDataService } from './base-data.service';
 import { HttpClient } from '@angular/common/http';
-import { IAddress } from '../shared/interfaces';
 
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { ILocation } from '../shared/location-interface';
 
 @Injectable({
     providedIn: 'root'
 })
-export class LocationDataService extends BaseDataService {
+export class LocationDataService {
 
-    locationsDictionary = new Map<number, IAddress>();
+    baseUrl = 'assets/';
+    locations: Record<number, ILocation> = {};
 
-    constructor(http: HttpClient) {
-        super(http);
-    }
+    constructor(private http: HttpClient) {}
 
-    getAddresses(): Observable<IAddress[]> {
+    getLocations(): Observable<ILocation[]> {
 
         // Check if addresses are already loaded
-        if (this.locationsDictionary && this.locationsDictionary.size) {
-            return of(Array.from(this.locationsDictionary.values()));
+        if (this.locations && Object.keys(this.locations).length) {
+            return of(Array.from(Object.values(this.locations)));
         }
 
         // If not loaded, get it from locations.json from assets
-        return this.http.get<IAddress[]>(this.baseUrl + 'locations.json').
+        return this.http.get<ILocation[]>(this.baseUrl + 'locations.json').
         pipe(
-            map(addresses => {
+            map(locations => {
 
-                addresses.forEach(item => {
+                locations.forEach(location => {
 
                     // Store all addresses to a dictionary for future reference and easy access
-                    this.locationsDictionary.set(item.id, item);
-                })
+                    this.locations[location.id] = location;
+                });
 
-                return addresses;
+                return locations;
             }),
-
-            // Handle server error
-            catchError(this.handleError)
         );
     }
 
-    getAddressName(id: number): Observable<string> {
+    getLocationName(id: number): Observable<string> {
 
-        let addr = '';
-        this.getAddress(id).subscribe((item: IAddress) => {
-            addr = item.name;
-        });
-        return of(addr);
-    }
-
-    getAddress(id: number): Observable<IAddress> {
-
-        let addr: IAddress;
-        addr = this.locationsDictionary.get(id);
-        if (addr) {
-            return of(addr);
+        if (!id)
+        {
+            return;
         }
-        addr = { id: 0, name: ''};
-        return of(addr);
+
+        return this.getLocation(id).pipe(map(location => {
+            return location.name;
+        }));
     }
 
-    addAddress(value: IAddress) {
-        if (value){
-            this.locationsDictionary.set(value.id, value);
+    getLocation(id: number): Observable<ILocation> {
+
+        if (!Object.keys(this.locations).length)
+        {
+            return;
+        }
+
+        return of(this.locations[id]);
+    }
+
+    addLocation(newLocation: ILocation) {
+        if (newLocation){
+            newLocation.id = this.createId();
+            const location = {
+                ...newLocation
+            };
+            this.locations[newLocation.id] = location;
         }
     }
 
-    deleteAddress(value: number) {
-        if (value){
-            this.locationsDictionary.delete(value);
+    updateLocation(location: ILocation) {
+        if (location) {
+            this.locations[location.id] = location;
         }
     }
+
+    deleteLocation(locationId: number) {
+        if (locationId){
+            delete this.locations[locationId];
+        }
+    }
+
+    private createId(): number {
+
+        const locationValues: ILocation[] = Object.values(this.locations);
+
+        const maxId: number = Math.max.apply(Math, locationValues.map(location => {
+            return location.id;
+        }));
+
+        return maxId + 1;
+      }
 }

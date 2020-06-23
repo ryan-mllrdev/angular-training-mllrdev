@@ -1,33 +1,21 @@
 <nav class="navbar navbar-light bg-light justify-content-between">
-    <a class="navbar-brand"><button class="btn btn-primary" [routerLink]="['/products', 0]">+</button> PRODUCTS</a>
+    <a class="navbar-brand"><button class="btn btn-primary" [routerLink]="['/products/create']">+</button> PRODUCTS</a>
     <form class="form-inline">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchText" name="search">
     </form>
   </nav>
-<table class="table table-striped table-light">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">SKU</th>
-        <th scope="col">NAME</th>
-        <th scope="col">SUPPLIER</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of products |filter:searchText">
-        <th scope="row">{{product.id}}</th>
-        <td>{{product.sku}}</td>
-        <td>{{product.name}}</td>
-        <td>{{product.supplierName}}</td>
-        <td>
-            <a [routerLink]="['/products', product.id]">Details</a>
-        </td>
-        <!-- <td>
-          <a [routerLink]="['/products/delete', prod.id]">Delete</a>
-        </td> -->
-        <td>
-          <button (click)="confirmDelete(product.id)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="container">
+    <!--Table header-->
+    <div class="row">
+      <div class="col"><h4>SKU</h4></div>
+      <div class="col"><h4>Name</h4></div>
+      <div class="col"><h4>Description</h4></div>
+      <div class="col"><h4>Supplier</h4></div>
+      <div class="col">&nbsp;</div>
+      <div class="col">&nbsp;</div>
+    </div>
+    <!--Table data-->
+    <ng-template ngFor let-product [ngForOf]="products |filter:searchText">
+      <app-product-list-row [product]="product" (productsUpdated)="getProducts($event)"></app-product-list-row>
+    </ng-template>
+  </div>

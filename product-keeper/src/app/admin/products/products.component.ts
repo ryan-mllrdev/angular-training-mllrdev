@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { IProduct } from '../../shared/interfaces';
-import { DataService } from '../../core/data.service';
 import { AppComponent } from 'src/app/app.component';
+import { IProduct } from 'src/app/shared/product-interface';
+import { ProductDataService } from 'src/app/core/product-data.service';
+import { LocationDataService } from 'src/app/core/locations-data.service';
+import { SuppliersDataService } from 'src/app/core/suppliers-data.service';
 
 @Component({
   selector: 'app-products',
@@ -12,14 +14,11 @@ export class ProductsComponent implements OnInit {
 
   products: IProduct[] = [];
 
-  constructor(private dataService: DataService, private appComponent: AppComponent) { }
+  constructor(private productDataService: ProductDataService){}
 
   ngOnInit(): void {
 
-    this.appComponent.showFailed = 'collapse';
-    this.appComponent.showSuccess = 'collapse';
-
-    this.dataService.productDataService.getProducts()
+    this.productDataService.getProducts()
     .subscribe((products: IProduct[]) => this.products = products);
 
   }
