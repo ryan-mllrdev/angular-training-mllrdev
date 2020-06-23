@@ -27,6 +27,5 @@ import { LocationsRoutingModule } from './locations-routing.module';
         LocationListRowComponent,
         LocationFormComponent,
         LocationFormViewComponent],
-    // exports: [LocationsComponent]
 })
 export class LocationsModule{ }

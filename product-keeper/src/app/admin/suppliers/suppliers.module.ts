@@ -25,6 +25,5 @@ import { SuppliersRoutingModule } from './suppliers-routing.module';
         SupplierFormComponent,
         SupplierListRowComponent,
         SupplierFormViewComponent],
-    // exports: [SuppliersComponent]
 })
 export class SuppliersModule {}

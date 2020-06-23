@@ -8,13 +8,15 @@ const routes: Routes = [
     {
       path: '',
       component: ProductsComponent,
-      // children: [
-      //   { path: 'create', component: ProductFormViewComponent },
-      //   { path: 'edit/:id', component: ProductFormViewComponent }
-      // ]
     },
-    { path: 'create', component: ProductFormViewComponent },
-    { path: 'edit/:id', component: ProductFormViewComponent }
+    {
+      path: 'create',
+      component: ProductFormViewComponent
+    },
+    {
+      path: 'edit/:id',
+      component: ProductFormViewComponent
+    }
 ];
 
 @NgModule({

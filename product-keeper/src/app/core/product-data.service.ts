@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { SuppliersDataService } from './suppliers-data.service';
 import { HttpClient } from '@angular/common/http';
 import { IProduct } from '../shared/product-interface';

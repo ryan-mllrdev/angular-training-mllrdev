@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ISupplier } from 'src/app/shared/supplier-interface';
 import { SuppliersDataService } from 'src/app/core/suppliers-data.service';
-import { LocationDataService } from 'src/app/core/locations-data.service';
-import { ProductDataService } from 'src/app/core/product-data.service';
 
 @Component({
   selector: 'app-suppliers',

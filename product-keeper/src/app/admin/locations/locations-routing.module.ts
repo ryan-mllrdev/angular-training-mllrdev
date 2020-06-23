@@ -7,14 +7,16 @@ import { LocationFormViewComponent } from './location-form/location-form-view/lo
 const routes: Routes = [
   {
     path: '',
-    component: LocationsComponent,
-    // children: [
-    //   { path: 'create', component: LocationFormViewComponent },
-    //   { path: 'edit/:id', component: LocationFormViewComponent }
-    // ]
+    component: LocationsComponent
   },
-  { path: 'create', component: LocationFormViewComponent },
-    { path: 'edit/:id', component: LocationFormViewComponent }
+  {
+    path: 'create',
+    component: LocationFormViewComponent
+  },
+  {
+    path: 'edit/:id',
+    component: LocationFormViewComponent
+  }
 ];
 
 @NgModule({
