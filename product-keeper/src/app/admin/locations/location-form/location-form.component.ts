@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ILocation } from 'src/app/shared/location-interface';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { LocationDataService } from 'src/app/core/locations-data.service';
+import { ToasterNotificationService } from 'src/app/shared/toaster-notification.service';
 
 @Component({
   selector: 'app-location-form',
@@ -16,7 +17,10 @@ export class LocationFormComponent implements OnInit, OnDestroy {
 
   @Input() location: ILocation;
 
-  constructor(private formBuilder: FormBuilder, private locationDataService: LocationDataService) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private locationDataService: LocationDataService,
+    private toasterNotificationService: ToasterNotificationService) { }
 
   ngOnInit(): void {
 
@@ -46,6 +50,8 @@ export class LocationFormComponent implements OnInit, OnDestroy {
       this.locationDataService.addLocation(this.location);
 
       this.locationForm.reset(this.originalLocationValue);
+
+      this.toasterNotificationService.showSuccess('New location successfully created', '');
     }
     else {
       const location: ILocation = {
@@ -53,6 +59,8 @@ export class LocationFormComponent implements OnInit, OnDestroy {
       };
 
       this.locationDataService.updateLocation(location);
+
+      this.toasterNotificationService.showSuccess('Location successfully updated', '');
     }
   }
 

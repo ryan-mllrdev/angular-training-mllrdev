@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { SuppliersDataService } from 'src/app/core/suppliers-data.service';
 import { ILocation } from 'src/app/shared/location-interface';
 import { ISupplier } from 'src/app/shared/supplier-interface';
+import { ToasterNotificationService } from 'src/app/shared/toaster-notification.service';
 
 @Component({
   selector: 'app-supplier-form',
@@ -19,7 +20,10 @@ export class SupplierFormComponent implements OnInit, OnDestroy {
   @Input() location: ILocation;
   @Input() locations: ILocation[];
 
-  constructor(private formBuilder: FormBuilder, private supplierDataService: SuppliersDataService) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private supplierDataService: SuppliersDataService,
+    private toasterNotificationService: ToasterNotificationService) { }
 
   ngOnInit(): void {
 
@@ -58,6 +62,8 @@ export class SupplierFormComponent implements OnInit, OnDestroy {
       this.supplierDataService.addSupplier(this.supplier);
 
       this.supplierForm.reset(this.originalSupplierValue);
+
+      this.toasterNotificationService.showSuccess('New supplier successfully created', '');
     }
     else {
       const supplier: ISupplier = {
@@ -65,6 +71,8 @@ export class SupplierFormComponent implements OnInit, OnDestroy {
       };
 
       this.supplierDataService.updateSupplier(supplier);
+
+      this.toasterNotificationService.showSuccess('Supplier successfully updated', '');
     }
   }
 

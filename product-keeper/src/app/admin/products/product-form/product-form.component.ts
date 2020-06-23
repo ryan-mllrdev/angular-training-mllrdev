@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { ProductDataService } from 'src/app/core/product-data.service';
 import { IProduct } from 'src/app/shared/product-interface';
 import { ISupplier } from 'src/app/shared/supplier-interface';
+import { ToasterNotificationService } from 'src/app/shared/toaster-notification.service';
 
 @Component({
   selector: 'app-product-form',
@@ -19,7 +20,10 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   @Input() supplier: ISupplier;
   @Input() suppliers: ISupplier;
 
-  constructor(private formBuilder: FormBuilder, private productDataService: ProductDataService) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private productDataService: ProductDataService,
+    private toasterNotificationService: ToasterNotificationService) { }
 
   ngOnInit(): void {
 
@@ -60,6 +64,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       this.productDataService.addProduct(this.product);
 
       this.productForm.reset(this.originalProductValue);
+
+      this.toasterNotificationService.showSuccess('New product successfully created', '');
+
     }
     else {
       const product: IProduct = {
@@ -67,6 +74,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       };
 
       this.productDataService.updateProduct(product);
+
+      this.toasterNotificationService.showSuccess('Product successfully updated', '');
     }
   }
 }

@@ -4,7 +4,9 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavigationModule } from './admin/navigation/navigation.module';
-import { NavigationRoutingModule } from './admin/navigation/navigation-routing.module';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -14,6 +16,8 @@ import { NavigationRoutingModule } from './admin/navigation/navigation-routing.m
     BrowserModule,
     NavigationModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   bootstrap: [AppComponent]
 })
