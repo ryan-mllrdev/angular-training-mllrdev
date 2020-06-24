@@ -1,10 +1,7 @@
 import { NgModule } from '@angular/core';
 
-import { DataService } from './data.service';
-
 @NgModule({
-    imports: [],
-    providers: [ DataService ]
+  imports: [],
+  providers: [],
 })
-
 export class CoreModule {}

@@ -1,27 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 
-import { IProduct } from '../../shared/interfaces';
-import { DataService } from '../../core/data.service';
-import { AppComponent } from 'src/app/app.component';
+import { IProduct } from 'src/app/shared/product-interface';
+import { ProductDataService } from 'src/app/core/product-data.service';
 
 @Component({
   selector: 'app-products',
-  templateUrl: './products.component.html'
+  templateUrl: './products.component.html',
 })
 export class ProductsComponent implements OnInit {
-
   products: IProduct[] = [];
 
-  constructor(private dataService: DataService, private appComponent: AppComponent) { }
+  constructor(private productDataService: ProductDataService) {}
 
   ngOnInit(): void {
-
-    this.appComponent.showFailed = 'collapse';
-    this.appComponent.showSuccess = 'collapse';
-
-    this.dataService.productDataService.getProducts()
-    .subscribe((products: IProduct[]) => this.products = products);
-
+    this.productDataService
+      .getProducts()
+      .subscribe((products: IProduct[]) => (this.products = products));
   }
-
 }

@@ -1,78 +1,91 @@
-import { IProduct } from '../shared/interfaces';
-import { BaseDataService } from './base-data.service';
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { SuppliersDataService } from './suppliers-data.service';
 import { HttpClient } from '@angular/common/http';
+import { IProduct } from '../shared/product-interface';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
-export class ProductDataService extends BaseDataService {
+export class ProductDataService {
+  baseUrl = 'assets/';
+  products: Record<number, IProduct> = {};
 
-    productsDictionary = new Map<number,IProduct>();
+  /**
+   *
+   */
+  constructor(
+    private http: HttpClient,
+    private supplierDataService: SuppliersDataService
+  ) {}
 
-    /**
-     *
-     */
-    constructor(http: HttpClient, private supplier: SuppliersDataService) {
-        super(http);
+  getProducts(): Observable<IProduct[]> {
+    // Check if data are already loaded
+    if (this.products && Object.keys(this.products).length) {
+      return of(Array.from(Object.values(this.products)));
     }
 
-    getProducts(): Observable<IProduct[]> {
+    // If data are not loaded, get it from products.json
+    return this.http.get<IProduct[]>(this.baseUrl + 'products.json').pipe(
+      map((products) => {
+        products.forEach((product) => {
+          // Get the supplier name and assign it to the product matching the supplierId
+          this.supplierDataService
+            .getSupplierName(product.supplierId)
+            .subscribe((name: string) => {
+              product.supplierName = name;
 
-        // Check if data are already loaded
-        if (this.productsDictionary && this.productsDictionary.size) {
-            return of(Array.from(this.productsDictionary.values()));
-        }
+              // Store each product item to a dictionary for future reference and easy access
+              this.products[product.id] = product;
+            });
+        });
+        return products;
+      })
+    );
+  }
 
-        // If data are not loaded, get it from products.json
-        return this.http.get<IProduct[]>(this.baseUrl + 'products.json').
-        pipe(
-            map(products => {
-                products.forEach(item => {
-
-                    // Get the supplier name and assign it to the product matching the supplierId
-                    this.supplier.getSupplierName(item.supplierId)
-                    .subscribe((name: string) => {
-
-                        item.supplierName= name;
-
-                        // Store each product item to a dictionary for future reference and easy access
-                        this.productsDictionary.set(item.id, item);
-                    });
-
-                });
-                return products;
-            }),
-
-            // Handle server error
-            catchError(this.handleError)
-        );
+  getProduct(id: number): Observable<IProduct> {
+    if (!Object.keys(this.products).length) {
+      return;
     }
 
-    getProduct(id: number): Observable<IProduct> {
+    return of(this.products[id]);
+  }
 
-        let theprod: IProduct;
-        theprod = this.productsDictionary.get(id);
-        if (theprod) {
-            return of(theprod);
-        }
-        theprod = { id: 0, name: '', description: '', sku: '', supplierId: 0, supplierName: ''};
-        return of(theprod);
+  addProduct(newProduct: IProduct) {
+    if (newProduct) {
+      newProduct.id = this.createId();
+      const product = {
+        ...newProduct,
+      };
+      this.products[newProduct.id] = product;
     }
+  }
 
-    addProduct(value: IProduct) {
-        if (value){
-            this.productsDictionary.set(value.id, value);
-        }
+  updateProduct(product: IProduct) {
+    if (product) {
+      this.products[product.id] = product;
     }
+  }
 
-    deleteProduct(value: number) {
-        if (value){
-            this.productsDictionary.delete(value);
-        }
+  deleteProduct(productId: number) {
+    if (productId) {
+      delete this.products[productId];
     }
+  }
+
+  private createId(): number {
+    const productValues: IProduct[] = Object.values(this.products);
+
+    const maxId: number = Math.max.apply(
+      Math,
+      productValues.map((product) => {
+        return product.id;
+      })
+    );
+
+    return maxId + 1;
+  }
 }

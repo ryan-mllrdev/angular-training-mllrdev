@@ -1,31 +1,22 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NavigationModule } from './admin/navigation/navigation.module';
 
-import { CoreModule } from './core/core.module';
-import { AdminModule } from './admin/admin.module';
-import { FormsModule } from '@angular/forms';
-import { DataService } from './core/data.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
+    NavigationModule,
     AppRoutingModule,
-    HttpClientModule,
-    AdminModule,
-    FormsModule,
-    CoreModule,
-    Ng2SearchPipeModule
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
-  providers: [DataService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

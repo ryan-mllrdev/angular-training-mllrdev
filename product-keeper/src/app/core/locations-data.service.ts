@@ -1,77 +1,90 @@
 import { Injectable } from '@angular/core';
-import { BaseDataService } from './base-data.service';
 import { HttpClient } from '@angular/common/http';
-import { IAddress } from '../shared/interfaces';
 
 import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { ILocation } from '../shared/location-interface';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
-export class LocationDataService extends BaseDataService {
+export class LocationDataService {
+  baseUrl = 'assets/';
+  locations: Record<number, ILocation> = {};
 
-    locationsDictionary = new Map<number, IAddress>();
+  constructor(private http: HttpClient) {}
 
-    constructor(http: HttpClient) {
-        super(http);
+  getLocations(): Observable<ILocation[]> {
+    // Check if addresses are already loaded
+    if (this.locations && Object.keys(this.locations).length) {
+      return of(Array.from(Object.values(this.locations)));
     }
 
-    getAddresses(): Observable<IAddress[]> {
-
-        // Check if addresses are already loaded
-        if (this.locationsDictionary && this.locationsDictionary.size) {
-            return of(Array.from(this.locationsDictionary.values()));
-        }
-
-        // If not loaded, get it from locations.json from assets
-        return this.http.get<IAddress[]>(this.baseUrl + 'locations.json').
-        pipe(
-            map(addresses => {
-
-                addresses.forEach(item => {
-
-                    // Store all addresses to a dictionary for future reference and easy access
-                    this.locationsDictionary.set(item.id, item);
-                })
-
-                return addresses;
-            }),
-
-            // Handle server error
-            catchError(this.handleError)
-        );
-    }
-
-    getAddressName(id: number): Observable<string> {
-
-        let addr = '';
-        this.getAddress(id).subscribe((item: IAddress) => {
-            addr = item.name;
+    // If not loaded, get it from locations.json from assets
+    return this.http.get<ILocation[]>(this.baseUrl + 'locations.json').pipe(
+      map((locations) => {
+        locations.forEach((location) => {
+          // Store all addresses to a dictionary for future reference and easy access
+          this.locations[location.id] = location;
         });
-        return of(addr);
+
+        return locations;
+      })
+    );
+  }
+
+  getLocationName(id: number): Observable<string> {
+    if (!id) {
+      return;
     }
 
-    getAddress(id: number): Observable<IAddress> {
+    return this.getLocation(id).pipe(
+      map((location) => {
+        return location.name;
+      })
+    );
+  }
 
-        let addr: IAddress;
-        addr = this.locationsDictionary.get(id);
-        if (addr) {
-            return of(addr);
-        }
-        addr = { id: 0, name: ''};
-        return of(addr);
+  getLocation(id: number): Observable<ILocation> {
+    if (!Object.keys(this.locations).length) {
+      return;
     }
 
-    addAddress(value: IAddress) {
-        if (value){
-            this.locationsDictionary.set(value.id, value);
-        }
-    }
+    return of(this.locations[id]);
+  }
 
-    deleteAddress(value: number) {
-        if (value){
-            this.locationsDictionary.delete(value);
-        }
+  addLocation(newLocation: ILocation) {
+    if (newLocation) {
+      newLocation.id = this.createId();
+      const location = {
+        ...newLocation,
+      };
+      this.locations[newLocation.id] = location;
     }
+  }
+
+  updateLocation(location: ILocation) {
+    if (location) {
+      this.locations[location.id] = location;
+    }
+  }
+
+  deleteLocation(locationId: number) {
+    if (locationId) {
+      delete this.locations[locationId];
+    }
+  }
+
+  private createId(): number {
+    const locationValues: ILocation[] = Object.values(this.locations);
+
+    const maxId: number = Math.max.apply(
+      Math,
+      locationValues.map((location) => {
+        return location.id;
+      })
+    );
+
+    return maxId + 1;
+  }
 }
