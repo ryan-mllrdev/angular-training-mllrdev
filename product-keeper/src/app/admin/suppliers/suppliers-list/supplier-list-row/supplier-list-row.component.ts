@@ -5,21 +5,19 @@ import { ISupplier } from 'src/app/shared/supplier-interface';
 @Component({
   selector: 'app-supplier-list-row',
   templateUrl: './supplier-list-row.component.html',
-  styleUrls: ['./supplier-list-row.component.css']
+  styleUrls: ['./supplier-list-row.component.css'],
 })
 export class SupplierListRowComponent implements OnInit {
-
-  constructor(private supplierDataService: SuppliersDataService) { }
+  constructor(private supplierDataService: SuppliersDataService) {}
 
   @Input() supplier: ISupplier;
 
   @Output() suppliersUpdated: EventEmitter<ISupplier[]> = new EventEmitter();
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   confirmDelete(id: number) {
-    this.supplierDataService.getSupplier(id).subscribe(supplier => {
+    this.supplierDataService.getSupplier(id).subscribe((supplier) => {
       if (supplier) {
         if (confirm(`Do you really wish to delete ${supplier.name}`)) {
           this.supplierDataService.deleteSupplier(id);
@@ -30,9 +28,8 @@ export class SupplierListRowComponent implements OnInit {
   }
 
   private reload() {
-    this.supplierDataService.getSuppliers().subscribe(suppliers => {
+    this.supplierDataService.getSuppliers().subscribe((suppliers) => {
       this.suppliersUpdated.emit(suppliers);
     });
   }
-
 }

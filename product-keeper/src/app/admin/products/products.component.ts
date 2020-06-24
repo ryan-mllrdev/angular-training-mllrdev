@@ -5,19 +5,16 @@ import { ProductDataService } from 'src/app/core/product-data.service';
 
 @Component({
   selector: 'app-products',
-  templateUrl: './products.component.html'
+  templateUrl: './products.component.html',
 })
 export class ProductsComponent implements OnInit {
-
   products: IProduct[] = [];
 
-  constructor(private productDataService: ProductDataService){}
+  constructor(private productDataService: ProductDataService) {}
 
   ngOnInit(): void {
-
-    this.productDataService.getProducts()
-    .subscribe((products: IProduct[]) => this.products = products);
-
+    this.productDataService
+      .getProducts()
+      .subscribe((products: IProduct[]) => (this.products = products));
   }
-
 }

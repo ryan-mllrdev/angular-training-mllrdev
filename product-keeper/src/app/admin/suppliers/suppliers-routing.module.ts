@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { SuppliersComponent } from './suppliers.component';
 import { SupplierFormViewComponent } from './supplier-form/supplier-form-view/supplier-form-view.component';
 
-
 const routes: Routes = [
   {
     path: '',
@@ -11,16 +10,16 @@ const routes: Routes = [
   },
   {
     path: 'create',
-    component: SupplierFormViewComponent
+    component: SupplierFormViewComponent,
   },
   {
     path: 'edit/:id',
-    component: SupplierFormViewComponent
-  }
+    component: SupplierFormViewComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SuppliersRoutingModule { }
+export class SuppliersRoutingModule {}

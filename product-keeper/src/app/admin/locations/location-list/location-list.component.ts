@@ -4,21 +4,18 @@ import { ILocation } from 'src/app/shared/location-interface';
 @Component({
   selector: 'app-location-list',
   templateUrl: './location-list.component.html',
-  styleUrls: ['./location-list.component.css']
+  styleUrls: ['./location-list.component.css'],
 })
 export class LocationListComponent implements OnInit {
-
   searchText: string;
 
-  constructor() { }
+  constructor() {}
 
   @Input() locations: ILocation[];
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   getLocations(locations: ILocation[]) {
     this.locations = locations;
   }
-
 }

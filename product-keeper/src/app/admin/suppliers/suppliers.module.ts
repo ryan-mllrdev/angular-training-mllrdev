@@ -12,18 +12,20 @@ import { SupplierFormViewComponent } from './supplier-form/supplier-form-view/su
 import { SuppliersRoutingModule } from './suppliers-routing.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        FormsModule,
-        ReactiveFormsModule,
-        Ng2SearchPipeModule,
-        SuppliersRoutingModule],
-    declarations: [
-        SuppliersComponent,
-        SuppliersListComponent,
-        SupplierFormComponent,
-        SupplierListRowComponent,
-        SupplierFormViewComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    Ng2SearchPipeModule,
+    SuppliersRoutingModule,
+  ],
+  declarations: [
+    SuppliersComponent,
+    SuppliersListComponent,
+    SupplierFormComponent,
+    SupplierListRowComponent,
+    SupplierFormViewComponent,
+  ],
 })
 export class SuppliersModule {}

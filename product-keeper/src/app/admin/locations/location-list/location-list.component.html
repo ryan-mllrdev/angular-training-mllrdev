@@ -1,13 +1,16 @@
 <nav class="navbar navbar-light bg-light justify-content-between">
   <a class="navbar-brand"><button class="btn btn-primary" [routerLink]="['/locations/create']">+</button> LOCATIONS</a>
   <form class="form-inline">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchText" name="search">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchText"
+      name="search">
   </form>
 </nav>
 <div class="container">
   <!--Table header-->
   <div class="row">
-    <div class="col"><h4>Name</h4></div>
+    <div class="col">
+      <h4>Name</h4>
+    </div>
     <div class="col">&nbsp;</div>
     <div class="col">&nbsp;</div>
   </div>

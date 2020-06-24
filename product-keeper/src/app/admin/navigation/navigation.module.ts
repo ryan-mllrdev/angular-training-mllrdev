@@ -8,15 +8,15 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        HttpClientModule,
-        ReactiveFormsModule,
-        Ng2SearchPipeModule,
-        NavigationRoutingModule
-    ],
-    declarations: [NavigationComponent],
-    exports: [NavigationComponent]
+  imports: [
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    Ng2SearchPipeModule,
+    NavigationRoutingModule,
+  ],
+  declarations: [NavigationComponent],
+  exports: [NavigationComponent],
 })
 export class NavigationModule {}

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-
 import { LocationsComponent } from './locations.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -14,18 +13,20 @@ import { LocationFormViewComponent } from './location-form/location-form-view/lo
 import { LocationsRoutingModule } from './locations-routing.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        FormsModule,
-        ReactiveFormsModule,
-        Ng2SearchPipeModule,
-        LocationsRoutingModule],
-    declarations: [
-        LocationsComponent,
-        LocationListComponent,
-        LocationListRowComponent,
-        LocationFormComponent,
-        LocationFormViewComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    Ng2SearchPipeModule,
+    LocationsRoutingModule,
+  ],
+  declarations: [
+    LocationsComponent,
+    LocationListComponent,
+    LocationListRowComponent,
+    LocationFormComponent,
+    LocationFormViewComponent,
+  ],
 })
-export class LocationsModule{ }
+export class LocationsModule {}

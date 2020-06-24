@@ -3,24 +3,23 @@ import { Routes, RouterModule } from '@angular/router';
 import { LocationsComponent } from './locations.component';
 import { LocationFormViewComponent } from './location-form/location-form-view/location-form-view.component';
 
-
 const routes: Routes = [
   {
     path: '',
-    component: LocationsComponent
+    component: LocationsComponent,
   },
   {
     path: 'create',
-    component: LocationFormViewComponent
+    component: LocationFormViewComponent,
   },
   {
     path: 'edit/:id',
-    component: LocationFormViewComponent
-  }
+    component: LocationFormViewComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class LocationsRoutingModule { }
+export class LocationsRoutingModule {}
